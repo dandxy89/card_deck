@@ -61,26 +61,37 @@ fn create_deck() -> Vec<Card> {
     cards
 }
 
-#[test]
-fn test_create_deck() {
-    let cards = create_deck();
-
-    assert_eq!(&cards.len(), &56_usize);
-    assert!(cards.contains(&Card::Ace(Suit::Clubs)));
-    assert!(cards.contains(&Card::Number(4_usize, Suit::Clubs)));
-    assert!(cards.contains(&Card::King(Suit::Clubs)));
-}
-
 fn shuffle_cards(cards: &mut Vec<Card>) {
     cards.shuffle(&mut rand::thread_rng());
 }
 
+#[cfg(test)]
+mod test {
+    use crate::{create_deck, Card, Suit};
+
+    #[test]
+    fn test_create_deck() {
+        let cards = create_deck();
+
+        assert_eq!(&cards.len(), &56_usize);
+        assert!(cards.contains(&Card::Ace(Suit::Clubs)));
+        assert!(cards.contains(&Card::Number(4_usize, Suit::Clubs)));
+        assert!(cards.contains(&Card::King(Suit::Clubs)));
+    }
+}
+
 fn main() {
     let mut deck_of_cards: Vec<Card> = create_deck(); // Create a deck of cards
+
+    // Show me the deck!
+    for c in &deck_of_cards {
+        println!("{}", c);
+    }
+
     shuffle_cards(&mut deck_of_cards); // Shuffle the deck...
 
     // Show me the deck!
-    for c in deck_of_cards.iter() {
+    for c in &deck_of_cards {
         println!("{}", c);
     }
 }
